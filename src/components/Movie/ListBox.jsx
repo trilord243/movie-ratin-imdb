@@ -4,8 +4,8 @@ import { useState } from "react";
 import { MovieList } from "./MovieList";
 
 
-export const ListBox = ({ tempMovieData }) => {
-    const [movies, setMovies] = useState(tempMovieData);
+export const ListBox = ({ tempMovieData, movies }) => {
+
     const [isOpen1, setIsOpen1] = useState(true);
     return (
         <div className="box">

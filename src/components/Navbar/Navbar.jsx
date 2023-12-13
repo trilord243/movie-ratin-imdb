@@ -6,7 +6,7 @@ import { Search } from "./Search"
 
 
 
-export const Navbar = () => {
+export const Navbar = ({ movies }) => {
 
 
     return (
@@ -14,7 +14,7 @@ export const Navbar = () => {
             <Logo />
             <Search />
 
-            <NumResults />
+            <NumResults movies={movies} />
         </nav>
     )
 }
