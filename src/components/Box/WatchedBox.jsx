@@ -6,7 +6,7 @@ import { WatchedList } from './WatchedList';
 
 
 export const WatchedBox = ({ tempWatchedData }) => {
-    const [watched, setWatched] = useState(tempWatchedData);
+
     const [isOpen2, setIsOpen2] = useState(true);
     return (
         <div className="box">
@@ -18,8 +18,7 @@ export const WatchedBox = ({ tempWatchedData }) => {
             </button>
             {isOpen2 && (
                 <>
-                    <Summary watched={watched} />
-                    <WatchedList watched={watched} />
+
 
 
 

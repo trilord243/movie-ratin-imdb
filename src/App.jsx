@@ -1,7 +1,15 @@
+/* eslint-disable no-unused-vars */
 
 import { useState } from "react";
 import { Main } from "./components/Main";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Search } from "./components/Navbar/Search";
+import { NumResults } from "./components/Navbar/NumResults";
+import { Box } from "./components/Box.jsx";
+import { WatchedBox } from "./components/Box/WatchedBox";
+import { MovieList } from "./components/Movie/MovieList.jsx";
+import { Summary } from "./components/Box/Summary.jsx";
+import { WatchedList } from "./components/Box/WatchedList.jsx";
 
 
 const tempMovieData = [
@@ -54,13 +62,27 @@ const tempWatchedData = [
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
-
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
+      <Navbar>
+        <Search />
+        <NumResults movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
 
-      <Navbar movies={movies} />
-      <Main movies={movies} tempMovieData={tempMovieData} tempWatchedData={tempWatchedData} />
+          <MovieList movies={movies} />
+
+        </Box>
+        <Box >
+
+          <Summary watched={watched} />
+          <WatchedList watched={watched} />
+
+        </Box>
+      </Main>
 
 
 
