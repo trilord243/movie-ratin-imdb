@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
 
-import { useState } from "react";
-import { Main } from "./components/Main";
-import { Navbar } from "./components/Navbar/Navbar";
-import { Search } from "./components/Navbar/Search";
-import { NumResults } from "./components/Navbar/NumResults";
+import { useEffect, useState } from "react";
+import { Main } from "./components/Main.jsx";
+import { Navbar } from "./components/Navbar/Navbar.jsx";
+import { Search } from "./components/Navbar/Search.jsx";
+import { NumResults } from "./components/Navbar/NumResults.jsx";
 import { Box } from "./components/Box.jsx";
-import { WatchedBox } from "./components/Box/WatchedBox";
+import { WatchedBox } from "./components/Box/WatchedBox.jsx";
 import { MovieList } from "./components/Movie/MovieList.jsx";
 import { Summary } from "./components/Box/Summary.jsx";
 import { WatchedList } from "./components/Box/WatchedList.jsx";
+import { Loader } from "./components/Loader.jsx";
+
+const API_KEY = '58147d7b'
+
+const API = `http://www.omdbapi.com/?apikey=${API_KEY}`
+
 
 
 const tempMovieData = [
@@ -61,8 +67,28 @@ const tempWatchedData = [
 
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [query, setQuery] = useState('matrix')
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setIsLoading(true)
+      const res = await fetch(API + `&s=${query}`)
+      const data = await res.json()
+      console.log(data)
+      setMovies(data.Search)
+
+      setIsLoading(false)
+    }
+
+    fetchMovies()
+
+
+
+
+  }, [])
 
   return (
     <>
@@ -73,7 +99,7 @@ export default function App() {
       <Main>
         <Box>
 
-          <MovieList movies={movies} />
+          {!isLoading ? <MovieList movies={movies} /> : <Loader />}
 
         </Box>
         <Box >
