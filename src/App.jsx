@@ -11,6 +11,7 @@ import { MovieList } from "./components/Movie/MovieList.jsx";
 import { Summary } from "./components/Box/Summary.jsx";
 import { WatchedList } from "./components/Box/WatchedList.jsx";
 import { Loader } from "./components/Loader.jsx";
+import { ErrorMesage } from "./components/Error.jsx";
 
 const API_KEY = '58147d7b'
 
@@ -70,36 +71,65 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
-  const [query, setQuery] = useState('matrix')
+  const [errormessage, setErrormessage] = useState('')
+  const [query, setQuery] = useState('')
+
+
+
+
 
   useEffect(() => {
     const fetchMovies = async () => {
-      setIsLoading(true)
-      const res = await fetch(API + `&s=${query}`)
-      const data = await res.json()
-      console.log(data)
-      setMovies(data.Search)
+      try {
 
-      setIsLoading(false)
+
+        setIsLoading(true)
+        setErrormessage('')
+        const res = await fetch(API + `&s=${query}`)
+
+        const data = await res.json()
+        console.log(data.Response === 'False')
+        if (data.Response === 'False') {
+          throw new Error(data.Error)
+        }
+
+        setMovies(data.Search)
+
+
+      } catch (err) {
+
+
+
+        setErrormessage(err.message)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
+    if (!query.length < 3) {
+      setMovies([])
+      setErrormessage('')
+      return;
+    }
     fetchMovies()
 
 
 
 
-  }, [])
+  }, [query])
 
   return (
     <>
       <Navbar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </Navbar>
       <Main>
         <Box>
 
-          {!isLoading ? <MovieList movies={movies} /> : <Loader />}
+          {isLoading && !errormessage && <Loader />}
+          {!isLoading && !errormessage && <MovieList movies={movies} />}
+          {errormessage && <ErrorMesage message={errormessage} />}
 
         </Box>
         <Box >
