@@ -3,11 +3,12 @@
 import { Movie } from "./Movie"
 
 
-export const MovieList = ({ movies }) => {
+export const MovieList = ({ movies, setSelectedMovie }) => {
+
     return (
-        <ul className="list">
+        <ul className="list list-movies">
             {movies?.map((movie) => (
-                <Movie key={movie.imdbID} movie={movie} />
+                <Movie setSelectedMovie={setSelectedMovie} key={movie.imdbID} movie={movie} />
             ))}
         </ul>
     )

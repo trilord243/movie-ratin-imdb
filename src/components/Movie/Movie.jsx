@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 
 
-export const Movie = ({ movie }) => {
+export const Movie = ({ movie, setSelectedMovie }) => {
+    const handleMovieID = () => {
+        setSelectedMovie((id) => id === movie.imdbID ? null : movie.imdbID)
+    }
+
     return (
-        <li >
+        <li onClick={handleMovieID}  >
             <img src={movie.Poster} alt={`${movie.Title} poster`} />
             <h3>{movie.Title}</h3>
             <div>

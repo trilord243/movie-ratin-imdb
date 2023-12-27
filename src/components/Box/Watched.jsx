@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 
 
-export const Watched = ({ movie }) => {
+export const Watched = ({ movie, watched, setWatched }) => {
+    const handleDelete = () => {
+        const newWatched = watched.filter((watchedMovie) => watchedMovie.imdbID !== movie.imdbID)
+        setWatched(newWatched)
+    }
+
     return (
         <li key={movie.imdbID}>
             <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -19,6 +24,7 @@ export const Watched = ({ movie }) => {
                     <span>⏳</span>
                     <span>{movie.runtime} min</span>
                 </p>
+                <button className="btn-delete" onClick={handleDelete} >X</button>
             </div>
         </li>
     )
