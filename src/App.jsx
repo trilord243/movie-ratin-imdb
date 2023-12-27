@@ -23,8 +23,12 @@ const API = `https://www.omdbapi.com/?apikey=${API_KEY}`
 
 
 export default function App() {
+
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem('watched')
+    return JSON.parse(storedValue) || []
+  });
   const [isLoading, setIsLoading] = useState(false)
   const [errormessage, setErrormessage] = useState('')
   const [query, setQuery] = useState('')
@@ -33,12 +37,20 @@ export default function App() {
 
   function handleWatched(movie) {
     setWatched((prev) => [...prev, movie])
+
+
   }
 
   const closeMovie = () => {
     setSelectedMovie(null)
   }
 
+  useEffect(() => {
+
+    localStorage.setItem('watched', JSON.stringify(watched))
+
+
+  }, [watched])
 
 
   useEffect(() => {
