@@ -16,7 +16,7 @@ import { MovieDetail } from "./components/MovieDetail.jsx";
 
 const API_KEY = '58147d7b'
 
-const API = `http://www.omdbapi.com/?apikey=${API_KEY}`
+const API = `https://www.omdbapi.com/?apikey=${API_KEY}`
 
 
 
@@ -27,7 +27,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [errormessage, setErrormessage] = useState('')
-  const [query, setQuery] = useState('matrix')
+  const [query, setQuery] = useState('')
 
   const [selectedMovie, setSelectedMovie] = useState(null);
 

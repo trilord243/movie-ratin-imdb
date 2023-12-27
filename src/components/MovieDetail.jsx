@@ -5,7 +5,7 @@ import { StarRating } from "./StarRating"
 import { useEffect, useState } from "react"
 
 const API_KEY = '58147d7b'
-const API = `http://www.omdbapi.com/?apikey=${API_KEY}`
+const API = `https://www.omdbapi.com/?apikey=${API_KEY}`
 export const MovieDetail = ({ selectedMovie, closeMovie, handleWatched, watched }) => {
     const [userRating, setUserRating] = useState(null)
     const [Rating, setRating] = useState('')
