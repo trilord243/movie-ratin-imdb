@@ -39,14 +39,18 @@ export default function App() {
     setSelectedMovie(null)
   }
 
+
+
   useEffect(() => {
+    const controller = new AbortController()
     const fetchMovies = async () => {
+
       try {
 
 
         setIsLoading(true)
         setErrormessage('')
-        const res = await fetch(API + `&s=${query}`)
+        const res = await fetch(API + `&s=${query}`, { signal: controller.signal })
 
         const data = await res.json()
 
@@ -56,13 +60,16 @@ export default function App() {
         }
 
         setMovies(data.Search)
+        setErrormessage('')
 
 
       } catch (err) {
+        if (err.name !== 'AbortError') {
+          setErrormessage(err.message)
+        }
 
 
 
-        setErrormessage(err.message)
       } finally {
         setIsLoading(false)
       }
@@ -76,7 +83,9 @@ export default function App() {
     fetchMovies()
 
 
-
+    return () => {
+      controller.abort()
+    }
 
   }, [query])
 

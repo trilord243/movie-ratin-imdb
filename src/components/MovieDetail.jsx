@@ -13,9 +13,17 @@ export const MovieDetail = ({ selectedMovie, closeMovie, handleWatched, watched 
     const [movie, setMovie] = useState({})
     const [isLoading, setIsLoading] = useState(false)
 
-    const { Tittle: tittle, Year: year, Poster: poster, Plot: plot, Genre: genre, Director: director, Actors: actors, Runtime: runtime, imdbRating: imdbRating, Released: released } = movie
+    const { Title: title, Year: year, Poster: poster, Plot: plot, Genre: genre, Director: director, Actors: actors, Runtime: runtime, imdbRating: imdbRating, Released: released } = movie
 
 
+    useEffect(() => {
+
+        document.addEventListener('keydown', (e) => { if (e.code === 'Escape') { closeMovie() } })
+        return () => {
+            document.removeEventListener('keydown', (e) => { if (e.code === 'Escape') { closeMovie() } })
+
+        }
+    }, [])
 
 
 
@@ -32,7 +40,7 @@ export const MovieDetail = ({ selectedMovie, closeMovie, handleWatched, watched 
 
             const res = await fetch(API + `&i=${selectedMovie}`)
             const data = await res.json()
-
+            console.log(data)
             setMovie(data)
             setIsLoading(false)
 
@@ -63,6 +71,16 @@ export const MovieDetail = ({ selectedMovie, closeMovie, handleWatched, watched 
     const isButtonDisabled = Rating > 0 && !isWatched
 
 
+    useEffect(() => {
+        if (!title) return
+
+        document.title = `${title}`
+        console.log(title)
+        return () => {
+            document.title = 'Trilord movie'
+        }
+
+    }, [title])
     return (
         <li className='details'>
 
@@ -76,7 +94,7 @@ export const MovieDetail = ({ selectedMovie, closeMovie, handleWatched, watched 
                         <img src={poster} alt={`Poster of ${poster}`} />
                         <div className="details-overview">
 
-                            <h2> {tittle}  </h2>
+                            <h2> {title}  </h2>
                             <p>  {released} &bull; {runtime} </p>
                             <p>{genre} </p>
                             <p> <span>⭐</span> {imdbRating} Rating imdb     </p>
